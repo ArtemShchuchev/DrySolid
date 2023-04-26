@@ -51,20 +51,20 @@ int main(int argc, char** argv)
     std::wofstream file;
     file.open(L"test.txt", std::ios_base::app);
 
-    auto html = std::make_unique<FormatAsHTML>("format HTML");
-    saveTo(std::wcout, *html);
-    saveTo(file, *html);
-    saveTo(std::wcerr, *html);
+    FormatAsHTML html("format HTML");
+    saveTo(std::wcout, html);
+    saveTo(file, html);
+    saveTo(std::wcerr, html);
 
-    auto text = std::make_unique<FormatAsText>("format Text");
-    saveTo(std::wcout, *text);
-    saveTo(file, *text);
-    saveTo(std::wcerr, *text);
+    FormatAsText text("format Text");
+    saveTo(std::wcout, text);
+    saveTo(file, text);
+    saveTo(std::wcerr, text);
 
-    auto json = std::make_unique<FormatAsJSON>("format JSON");
-    saveTo(std::wcout, *json);
-    saveTo(file, *json);
-    saveTo(std::wcerr, *json);
+    FormatAsJSON json("format JSON");
+    saveTo(std::wcout, json);
+    saveTo(file, json);
+    saveTo(std::wcerr, json);
 	
 	std::wcout << "\n";
 	return 0;
