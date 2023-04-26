@@ -1,6 +1,11 @@
 ﻿#include "SecondaryFunction.h"
 #include "drysolid.hpp"
 
+/*
+    Принцип открытости/закрытости
+    В случае добавления новых форматов, придется изменять код saveTo
+
+
 
 void saveTo(std::ofstream &file, const Printable& printable, Data::Format format)
 {
@@ -32,12 +37,34 @@ void saveToAsText(std::ofstream &file, const Printable& printable)
 {
     saveTo(file, printable, Data::Format::kText);
 }
+*/
+
+void saveTo(std::wostream& file, const Format& printable)
+{
+    file << ansi2wide(printable.formatting()) << std::endl;
+}
 
 int main(int argc, char** argv)
 {
 	printHeader(L"Принципы DRY и SOLID");
     
-	
+    std::wofstream file;
+    file.open(L"test.txt", std::ios_base::app);
+
+    auto html = std::make_unique<FormatAsHTML>("format HTML");
+    saveTo(std::wcout, *html);
+    saveTo(file, *html);
+    saveTo(std::wcerr, *html);
+
+    auto text = std::make_unique<FormatAsText>("format Text");
+    saveTo(std::wcout, *text);
+    saveTo(file, *text);
+    saveTo(std::wcerr, *text);
+
+    auto json = std::make_unique<FormatAsJSON>("format JSON");
+    saveTo(std::wcout, *json);
+    saveTo(file, *json);
+    saveTo(std::wcerr, *json);
 	
 	std::wcout << "\n";
 	return 0;

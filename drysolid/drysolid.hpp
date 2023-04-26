@@ -3,7 +3,10 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "SecondaryFunction.h"
+
+/*
+    Принцип разделения интерфейса
+    "Толстый интерфейс"
 
 
 class Printable
@@ -15,6 +18,13 @@ public:
     virtual std::string printAsText() const = 0;
     virtual std::string printAsJSON() const = 0;
 };
+*/
+
+/*
+    Принцип подстановки Лисков
+    Ожидается, что функции форматирования текста, отдадут std::string, но 
+    они могут выбросить исключения. Я не понимаю... Исключения использовать нельзя?
+    Ведь они всегда нарушают ход программы, а стало быть принцип Лискова?
 
 class Data : public Printable
 {
@@ -55,3 +65,71 @@ private:
     std::string data_;
     Format format_;
 };
+*/
+
+class Format
+{
+public:
+    virtual ~Format() = default;
+
+    virtual std::string formatting() const = 0;
+};
+
+class FormatAsHTML : public Format
+{
+private:
+    std::string data_;
+public:
+    FormatAsHTML(const std::string& data) : data_(data) {}
+    std::string formatting() const override
+    {
+        return "<html>" + data_ + "<html/>";
+    }
+};
+
+class FormatAsText : public Format
+{
+private:
+    std::string data_;
+public:
+    FormatAsText(const std::string& data) : data_(data) {}
+    std::string formatting() const override
+    {
+        return data_;
+    }
+};
+
+class FormatAsJSON : public Format
+{
+private:
+    std::string data_;
+public:
+    FormatAsJSON(const std::string& data) : data_(data) {}
+    std::string formatting() const override
+    {
+        return "{ \"data\": \"" + data_ + "\"}";
+    }
+};
+
+/*
+class Output
+{
+private:
+    std::ostream stream_;
+public:
+    Output(std::ostream& stream)
+    {
+        stream_ = stream;
+    }
+    void log(const std::string& message)
+    {
+        stream_ << "Message : " << message << std::endl;
+    }
+    
+    
+    std::ostream& operator<<(std::ostream& out)
+    {
+        return out << "Message : " << message << std::endl;
+    }
+};
+*/
