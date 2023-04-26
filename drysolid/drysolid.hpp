@@ -107,29 +107,6 @@ public:
     FormatAsJSON(const std::string& data) : data_(data) {}
     std::string formatting() const override
     {
-        return "{ \"data\": \"" + data_ + "\"}";
+        return "{\"data\": \"" + data_ + "\"}";
     }
 };
-
-/*
-class Output
-{
-private:
-    std::ostream stream_;
-public:
-    Output(std::ostream& stream)
-    {
-        stream_ = stream;
-    }
-    void log(const std::string& message)
-    {
-        stream_ << "Message : " << message << std::endl;
-    }
-    
-    
-    std::ostream& operator<<(std::ostream& out)
-    {
-        return out << "Message : " << message << std::endl;
-    }
-};
-*/
